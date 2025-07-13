@@ -1,0 +1,25 @@
+FROM php:8.2-apache
+
+# Apache server name
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Installation des libs utiles et Composer
+RUN apt-get update && apt-get install -y \
+    unzip   zip libicu-dev g++ libpng-dev libxml2-dev \
+    libzip-dev libonig-dev libxslt-dev locales apt-utils \
+    && curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+# Extensions PHP
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-install pdo pdo_mysql gd opcache intl zip
+
+# Active mod Apache rewrite (utile pour Symfony)
+RUN a2enmod rewrite
+
+# Copier le fichier vhost
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+
+
+# WORKDIR
+WORKDIR /var/www/html/dockersymfony

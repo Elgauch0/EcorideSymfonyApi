@@ -1,0 +1,33 @@
+# Fichiers et dossiers générés par Composer
+/app/vendor/
+
+# Dossiers de cache, logs, sessions, etc. de Symfony
+/app/var/
+
+# Fichiers de configuration spécifiques à l'environnement local
+/app/.env.local
+/app/.env.dev 
+
+
+
+# Fichiers de configuration et de cache des IDE (ex: PhpStorm, VS Code)
+.idea/
+.vscode/
+.php_cs.cache
+.phpstorm.meta.php
+.history/ # Historique de certains IDE
+
+# Fichiers de test et de couverture de code
+/coverage/
+/phpunit.xml.dist.bak 
+
+# Fichiers du système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Fichiers de dump de base de données ou de données de test (si vous les générez localement)
+*.sql
+
+
+# Fichiers de cache spécifiques à Composer
+composer.lock.bak # Si vous faites des sauvegardes du lock file

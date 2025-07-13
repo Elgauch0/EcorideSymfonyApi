@@ -1,0 +1,11 @@
+services:
+  www:
+    build:
+      context: ./php
+      dockerfile: Dockerfile.dev
+    container_name: dockerSymfony
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/var/www/html/dockersymfony
+    restart: unless-stopped
