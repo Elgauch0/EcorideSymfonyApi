@@ -11,6 +11,6 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function test(): JsonResponse
     {
-        return new JsonResponse('server is Up');
+        return new JsonResponse(' El-kaouri server is Up');
     }
 }

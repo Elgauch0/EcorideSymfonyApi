@@ -5,8 +5,8 @@
 /app/var/
 
 # Fichiers de configuration spécifiques à l'environnement local
-/app/.env.local
-/app/.env.dev 
+
+/app/.env*
 
 
 
