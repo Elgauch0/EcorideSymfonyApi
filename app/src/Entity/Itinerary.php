@@ -47,6 +47,12 @@ class Itinerary
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'itinerary', orphanRemoval: true)]
     private Collection $reservations;
 
+    #[ORM\Column(length: 50)]
+    private ?string $departureCity = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $arrivalCity = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -179,6 +185,30 @@ class Itinerary
                 $reservation->setItinerary(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDepartureCity(): ?string
+    {
+        return $this->departureCity;
+    }
+
+    public function setDepartureCity(string $departureCity): static
+    {
+        $this->departureCity = $departureCity;
+
+        return $this;
+    }
+
+    public function getArrivalCity(): ?string
+    {
+        return $this->arrivalCity;
+    }
+
+    public function setArrivalCity(string $arrivalCity): static
+    {
+        $this->arrivalCity = $arrivalCity;
 
         return $this;
     }

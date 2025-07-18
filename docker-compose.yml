@@ -1,5 +1,5 @@
 services:
-  www:
+  Php:
     build:
       context: ./php
       dockerfile: Dockerfile.dev
@@ -7,6 +7,11 @@ services:
     image: ecoride_img
     ports:
       - "8000:80"
+    environment:
+      APP_ENV: ${APP_ENV}             
+      APP_SECRET: ${APP_SECRET}       
+      DATABASE_URL: ${DATABASE_URL}   
+      MAILER_DSN: ${MAILER_DSN:-null://null} 
     volumes:
       - ./app:/var/www/html/dockersymfony
     restart: unless-stopped
