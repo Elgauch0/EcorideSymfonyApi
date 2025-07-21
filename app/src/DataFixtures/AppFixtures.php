@@ -92,6 +92,8 @@ class AppFixtures extends Fixture
         $itinerary->setIsStarted(false);
         $itinerary->setIsFinished(false);
         $itinerary->setIsCancelled(false);
+        $itinerary->setDepartureCity('Paris');
+        $itinerary->setArrivalCity('Marseille');
         $itinerary->setPlaces($vehicle->getSeatsAvailable());
         $manager->persist($itinerary);
 
