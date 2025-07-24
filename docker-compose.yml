@@ -12,6 +12,7 @@ services:
       APP_SECRET: ${APP_SECRET}       
       DATABASE_URL: ${DATABASE_URL}   
       MAILER_DSN: ${MAILER_DSN:-null://null} 
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
     volumes:
       - ./app:/var/www/html/Ecoride
     restart: unless-stopped
