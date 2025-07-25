@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\VehicleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\VehicleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
 class Vehicle
@@ -14,6 +15,7 @@ class Vehicle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
@@ -26,9 +28,11 @@ class Vehicle
     private ?int $seats_available = null;
 
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?bool $isSmocking_alowed = null;
 
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?bool $isPets_alowed = null;
 
     #[ORM\Column(length: 50)]
@@ -36,9 +40,11 @@ class Vehicle
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["itinerary:read"])]
     private ?User $driver = null;
 
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?bool $isGreen = null;
 
     /**

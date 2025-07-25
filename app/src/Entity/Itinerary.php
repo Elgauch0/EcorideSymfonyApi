@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ItineraryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ItineraryRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ItineraryRepository::class)]
 class Itinerary
@@ -14,15 +15,19 @@ class Itinerary
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(["itinerary:read"])]
     private ?int $duration = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(["itinerary:read"])]
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Groups(["itinerary:read"])]
     private ?\DateTimeImmutable $datetime = null;
 
     #[ORM\Column]
@@ -35,10 +40,12 @@ class Itinerary
     private ?bool $isCancelled = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(["itinerary:read"])]
     private ?int $places = null;
 
     #[ORM\ManyToOne(inversedBy: 'itineraries')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["itinerary:read"])]
     private ?vehicle $vehicule = null;
 
     /**
@@ -48,9 +55,11 @@ class Itinerary
     private Collection $reservations;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["itinerary:read"])]
     private ?string $departureCity = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["itinerary:read"])]
     private ?string $arrivalCity = null;
 
     public function __construct()
