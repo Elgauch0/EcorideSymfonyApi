@@ -32,7 +32,7 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?itinerary $itinerary = null;
+    private ?Itinerary $itinerary = null;
 
 
     public function __construct()

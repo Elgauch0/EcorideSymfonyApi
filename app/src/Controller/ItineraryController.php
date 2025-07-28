@@ -20,7 +20,7 @@ final class ItineraryController extends AbstractController
         private SerializerInterface $serializer
     ) {}
 
-    #[Route('/search', name: 'app_itinerary', methods: ['POST'], format: 'json')]
+    #[Route('/search', name: 'app_itinerary', methods: ['POST'])]
     public function index(
         #[MapRequestPayload] CarpoolSearchDto $searchDto
     ): JsonResponse {

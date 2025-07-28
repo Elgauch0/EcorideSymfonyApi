@@ -46,7 +46,7 @@ class Itinerary
     #[ORM\ManyToOne(inversedBy: 'itineraries')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(["itinerary:read"])]
-    private ?vehicle $vehicule = null;
+    private ?Vehicle $vehicule = null;
 
     /**
      * @var Collection<int, Reservation>
