@@ -27,6 +27,7 @@ services:
       MARIADB_PASSWORD: ${DB_PASSWORD}
    volumes:
       - mariadb_data:/var/lib/mysql
+      - ./docker/db/init:/docker-entrypoint-initdb.d
 
 volumes:
     mariadb_data:

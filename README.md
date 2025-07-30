@@ -49,7 +49,7 @@ Suivez ces étapes pour démarrer l'API EcoRide :
 
 4.  **Démarrer les services Docker** :
     ```bash
-    docker-compose up -d
+    docker-compose up -d //  docker compose --env-file .env.dev up -d
     ```
     _Cela construira les images Docker et démarrera les conteneurs ._
 
@@ -92,3 +92,10 @@ Pour lancer les tests PHPUnit du projet :
 ```bash
 docker exec -it Ecoride   APP_ENV=test vendor/bin/phpunit --testdox
 ```
+
+/////
+creer alias pour la base de donnée de test
+alias symfony-root='DATABASE_URL="mysql://root:secretpass@mariadb:3306/ma_base" php bin/console'
+
+creer la base de donnée test
+symfony-root doctrine:database:create --env=test

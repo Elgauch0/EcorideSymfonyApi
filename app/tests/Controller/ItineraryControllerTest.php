@@ -11,12 +11,12 @@ final class ItineraryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $postParams = [
-            'depart' => 'Paris', // Changed from 'departure' to 'depart'
-            'destination' => 'Lyon', // Changed from 'arrival' to 'destination'
+            'depart' => 'Paris',
+            'destination' => 'Lyon',
             'date' => '2025-08-15',
         ];
 
-        $crawler = $client->request(
+        $client->request(
             'POST',
             '/api/itinerary/search',
             [],
@@ -33,12 +33,12 @@ final class ItineraryControllerTest extends WebTestCase
         $client = static::createClient();
 
         $postParams = [
-            'depart' => 'Marseille', // Changed from 'departure' to 'depart'
-            'destination' => 'Nice', // Changed from 'arrival' to 'destination'
+            'depart' => 'Marseille',
+            'destination' => 'Nice',
             'date' => '2025-10-10',
         ];
 
-        $crawler = $client->request(
+        $client->request(
             'POST',
             '/api/itinerary/search',
             [],

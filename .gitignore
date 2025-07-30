@@ -10,6 +10,7 @@
 /.env.local
 /.env.dev
 /.env.prod
+/.env.test
 !/app/.env.example
 
 
@@ -31,6 +32,12 @@ Thumbs.db
 
 # Fichiers de dump de base de données ou de données de test (si vous les générez localement)
 *.sql
+
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
 
 
 # Fichiers de cache spécifiques à Composer
