@@ -75,13 +75,13 @@ Une fois les conteneurs Docker démarrés, exécutez les commandes suivantes pou
     ```bash
     docker exec -it Ecoride php bin/console doctrine:fixtures:load
     ```
-    _Cette commande peupler la base de données avec des données d'exemple pour faciliter le développement et les tests._
+    _Cette commande va peupler la base de données avec des données d'exemple pour faciliter le développement et les tests._
 
 ---
 
 ## 🌐 Accès à l'API
 
-L'API sera accessible via `http://localhost:8000` (ou le port que vous avez configuré pour le service web dans `docker-compose.yml`).
+L'API sera accessible via `http://localhost:8000` .
 
 ---
 
@@ -90,5 +90,5 @@ L'API sera accessible via `http://localhost:8000` (ou le port que vous avez conf
 Pour lancer les tests PHPUnit du projet :
 
 ```bash
-docker exec -it Ecoride  php bin/phpunit --testdox
+docker exec -it Ecoride   APP_ENV=test vendor/bin/phpunit --testdox
 ```
