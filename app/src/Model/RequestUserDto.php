@@ -52,10 +52,12 @@ class RequestUserDto
         public ?string $adress = null,
 
         // --- Rôle (single string) ---
-        #[Assert\Choice(
-            choices: self::AVAILABLE_ROLES,
-            message: 'Le rôle "{{ value }}" n\'est pas défini.'
-        )]
-        public ?string $roles = null,
+        #[Assert\All([
+            new Assert\Choice(
+                choices: self::AVAILABLE_ROLES,
+                message: 'Le rôle "{{ value }}" n\'est pas valide.'
+            )
+        ])]
+        public ?array $roles = ['ROLE_USER']
     ) {}
 }
