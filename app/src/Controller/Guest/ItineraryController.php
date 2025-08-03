@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Guest;
 
 use App\Model\CarpoolSearchDto;
 use App\Repository\ItineraryRepository;

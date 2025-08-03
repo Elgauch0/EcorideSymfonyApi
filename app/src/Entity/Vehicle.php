@@ -18,7 +18,7 @@ class Vehicle
     #[Groups(["itinerary:read"])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, unique: true)]
     private ?string $licence_plate = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Guest;
 
 use App\Entity\User;
 use App\Model\RequestUserDto;

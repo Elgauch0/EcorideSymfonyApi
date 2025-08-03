@@ -13,6 +13,10 @@ services:
       DATABASE_URL: ${DATABASE_URL}   
       MAILER_DSN: ${MAILER_DSN:-null://null} 
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PASSPHRASE: ${JWT_PASSPHRASE}
+
     volumes:
       - ./app:/var/www/html/Ecoride
     restart: unless-stopped
