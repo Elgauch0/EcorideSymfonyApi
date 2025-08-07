@@ -12,12 +12,12 @@ final class UserControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'POST',
-            '/api/login',
+            '/api/login_check',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode([
-                'username' => 'admin@ecoride.com',
+                'username' => 'user@ecoride.com',
                 'password' => 'password'
             ])
         );
@@ -30,12 +30,12 @@ final class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepo = static::getContainer()->get(UserRepository::class);
-        $user = $userRepo->findOneByEmail('anass@example.com');
+        $user = $userRepo->findOneByEmail('user@ecoride.com');
 
         $token = static::getContainer()->get('lexik_jwt_authentication.encoder')
             ->encode(['username' => $user->getUserIdentifier()]);
 
-        $client->request('GET', '/api/admin', [], [], [
+        $client->request('GET', '/api/user', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer ' . $token,
             'Accept' => 'application/json',
         ]);

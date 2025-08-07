@@ -90,7 +90,7 @@ L'API sera accessible via `http://localhost:8000` .
 Pour lancer les tests PHPUnit du projet :
 
 ```bash
-docker exec -it Ecoride   APP_ENV=test vendor/bin/phpunit --testdox
+./vendor/bin/phpunit  --testdox
 ```
 
 /////

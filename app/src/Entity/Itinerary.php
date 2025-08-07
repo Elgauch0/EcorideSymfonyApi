@@ -55,11 +55,9 @@ class Itinerary
     private Collection $reservations;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read"])]
     private ?string $departureCity = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read"])]
     private ?string $arrivalCity = null;
 
     public function __construct()

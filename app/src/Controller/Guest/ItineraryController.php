@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
-#[Route('/api/itinerary')]
+#[Route('/api/guest')]
 final class ItineraryController extends AbstractController
 {
 

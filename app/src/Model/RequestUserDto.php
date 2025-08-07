@@ -10,8 +10,8 @@ class RequestUserDto
     // --- Constantes pour les rôles disponibles ---
     private const AVAILABLE_ROLES = [
         'ROLE_ADMIN',
-        'ROLE_EMPLOYE',
-        'ROLE_CHAUFFEUR',
+        'ROLE_MANAGER',
+        'ROLE_DRIVER',
         'ROLE_USER'
     ];
     // --- Fin des constantes ---

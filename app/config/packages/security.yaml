@@ -27,6 +27,7 @@ security:
             stateless: true
             lazy: true
             jwt: ~
+            security: false # Attention a ne pas oublié le firewall desactivé where env = prod !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -39,7 +40,8 @@ security:
     access_control:
         - { path: ^/api/login_check, roles: PUBLIC_ACCESS }
         - { path: ^/api/public, roles: PUBLIC_ACCESS }
-        - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/api/user, roles: ROLE_USER }
+        - { path: ^/api/admin, roles: ROLE_MANAGER }
 
 when@test:
     security:

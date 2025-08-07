@@ -28,4 +28,11 @@ final class TestController extends AbstractController
     {
         return new JsonResponse(['message' => 'data public']);
     }
+
+
+    #[Route('/api/user', name: 'user_test', methods: ['GET'])]
+    public function user_test(): JsonResponse
+    {
+        return new JsonResponse(['message' => 'user info']);
+    }
 }

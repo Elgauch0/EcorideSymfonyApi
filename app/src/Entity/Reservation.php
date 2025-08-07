@@ -17,8 +17,7 @@ class Reservation
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $dateReservation = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $seatsReserved = null;
@@ -38,7 +37,6 @@ class Reservation
     public function __construct()
     {
         $this->dateReservation = new \DateTimeImmutable();
-        $this->status = 'pending';
     }
 
     public function getId(): ?int
@@ -54,19 +52,6 @@ class Reservation
     public function setDateReservation(\DateTimeImmutable $dateReservation): static
     {
         $this->dateReservation = $dateReservation;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }
@@ -107,12 +92,12 @@ class Reservation
         return $this;
     }
 
-    public function getItinerary(): ?itinerary
+    public function getItinerary(): ?Itinerary
     {
         return $this->itinerary;
     }
 
-    public function setItinerary(?itinerary $itinerary): static
+    public function setItinerary(?Itinerary $itinerary): static
     {
         $this->itinerary = $itinerary;
 

@@ -15,7 +15,6 @@ class Vehicle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["itinerary:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50, unique: true)]
@@ -28,11 +27,9 @@ class Vehicle
     private ?int $seats_available = null;
 
     #[ORM\Column]
-    #[Groups(["itinerary:read"])]
     private ?bool $isSmocking_alowed = null;
 
     #[ORM\Column]
-    #[Groups(["itinerary:read"])]
     private ?bool $isPets_alowed = null;
 
     #[ORM\Column(length: 50)]

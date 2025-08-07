@@ -20,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['user:read'])]
     private ?string $email = null;
 
     /**
@@ -35,14 +36,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read"])]
+    #[Groups(["itinerary:read", "user:read"])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read"])]
+    #[Groups(["itinerary:read", "user:read"])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['user:read'])]
     private ?string $adress = null;
 
     /**

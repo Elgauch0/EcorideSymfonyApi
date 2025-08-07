@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,6 +25,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
                 'message' => $exception->getMessage()
             ];
         }
+
         $event->setResponse(new JsonResponse($data));
     }
 

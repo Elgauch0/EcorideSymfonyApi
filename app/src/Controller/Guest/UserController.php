@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 
-#[Route('/api/user')]
+#[Route('/api/guest')]
 final class UserController extends AbstractController
 {
 
@@ -28,7 +28,7 @@ final class UserController extends AbstractController
 
     ) {}
 
-    #[Route('', name: 'add_user', methods: ['POST'])]
+    #[Route('/adduser', name: 'add_user', methods: ['POST'])]
     public function addUser(#[MapRequestPayload] RequestUserDto $userDto): JsonResponse
     {
 
@@ -43,7 +43,9 @@ final class UserController extends AbstractController
 
         $currentUser = $this->getUser();
         if ($currentUser && in_array('ROLE_ADMIN', $currentUser->getRoles())) {
-            $user->setRoles($userDto->roles ?? ['ROLE_USER']);
+            $user->setRoles($userDto->roles);
+        } else {
+            $user->setRoles(['ROLE_USER']);
         }
         $this->em->persist($user);
         $this->em->flush();

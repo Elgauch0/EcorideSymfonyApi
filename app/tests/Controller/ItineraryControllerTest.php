@@ -18,7 +18,7 @@ final class ItineraryControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/itinerary/search',
+            '/api/guest/search',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
@@ -40,7 +40,7 @@ final class ItineraryControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/api/itinerary/search',
+            '/api/guest/search',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

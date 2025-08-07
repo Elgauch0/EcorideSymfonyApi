@@ -29,30 +29,30 @@ class AppFixtures extends Fixture
         $admin->setEmail('admin@ecoride.com');
         $admin->setPassword($this->userPasswordHasher->hashPassword($admin, "password"));
         $manager->persist($admin);
-        // --- NOUVEAU : Utilisateur Employe ---
+        // --- NOUVEAU : Utilisateur Manager ---
 
         $employe = new User();
         $employe->setFirstname('firstNameEmploye');
         $employe->setLastname('lastNameEMploye');
-        $employe->setRoles(['ROLE_EMPLOYE']);
+        $employe->setRoles(['ROLE_MANAGER']);
         $employe->setAdress('61 rue des employees pontoise 95000');
         $employe->setEmail('employe@ecoride.com');
         $employe->setPassword($this->userPasswordHasher->hashPassword($employe, "password"));
         $manager->persist($employe);
 
-        // --- NOUVEAU : Utilisateur Chauffeur ---
+        // --- NOUVEAU : Utilisateur Driver ---
 
         $chauffeur = new User();
         $chauffeur->setFirstname('Jean');
         $chauffeur->setLastname('Dupont');
-        $chauffeur->setRoles(['ROLE_CHAUFFEUR']);
+        $chauffeur->setRoles(['ROLE_DRIVER']);
         $chauffeur->setAdress('123 rue des Chauffeurs, 75000 Paris');
         $chauffeur->setEmail('chauffeur@ecoride.com');
         $chauffeur->setPassword($this->userPasswordHasher->hashPassword($chauffeur, "password"));
         $manager->persist($chauffeur);
 
 
-        // --- NOUVEAU : Utilisateur Chauffeur ------------------------
+        // --- NOUVEAU : Utilisateur User ------------------------
         $user = new User();
         $user->setFirstname('Marie');
         $user->setLastname('Curie');
@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
         $itinerary->setVehicule($vehicle);
         $itinerary->setDuration(270);
         $itinerary->setPrice(45);
-        $itinerary->setDatetime(new \DateTimeImmutable('2025-10-10 09:00:00'));
+        $itinerary->setDatetime(new \DateTimeImmutable('2026-10-10 09:00:00'));
         $itinerary->setIsStarted(false);
         $itinerary->setIsFinished(false);
         $itinerary->setIsCancelled(false);
@@ -103,7 +103,6 @@ class AppFixtures extends Fixture
         $reservation = new Reservation();
         $reservation->setClientId($user);
         $reservation->setItinerary($itinerary);
-        $reservation->setStatus('confirmed');
         $reservation->setSeatsReserved(1);
         $reservation->setIsCancelled(false);
         $manager->persist($reservation);
