@@ -9,9 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VehicleDto
 {
     public function __construct(
-        #[Assert\NotNull(message: 'L’identifiant du conducteur est requis.')]
-        #[Assert\Type('integer', message: 'L’identifiant du conducteur doit être un entier.')]
-        public int $driverId,
 
         #[Assert\NotBlank(message: 'La plaque d’immatriculation est requise.')]
         #[Assert\Type('string', message: 'La plaque doit être une chaîne de caractères.')]

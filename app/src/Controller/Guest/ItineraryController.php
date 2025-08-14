@@ -25,7 +25,11 @@ final class ItineraryController extends AbstractController
         #[MapRequestPayload] CarpoolSearchDto $searchDto
     ): JsonResponse {
         $itineraries = $this->itineraryRepository->findBySearchCriteria($searchDto);
+        if (empty($itineraries)) {
+            return $this->json($searchDto, JsonResponse::HTTP_CREATED);
+        }
         $jsonContent = $this->serializer->serialize($itineraries, 'json', ['groups' => ['itinerary:read']]);
+
         return new JsonResponse(
             $jsonContent,
             JsonResponse::HTTP_OK,

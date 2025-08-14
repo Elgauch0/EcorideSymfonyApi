@@ -27,7 +27,6 @@ security:
             stateless: true
             lazy: true
             jwt: ~
-            security: false # Attention a ne pas oublié le firewall desactivé where env = prod !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

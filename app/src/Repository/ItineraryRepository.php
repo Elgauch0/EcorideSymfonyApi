@@ -24,12 +24,9 @@ class ItineraryRepository extends ServiceEntityRepository
     public function findBySearchCriteria(CarpoolSearchDto $searchDto): array
     {
         $qb = $this->createQueryBuilder('i');
-
         $depart = trim($searchDto->depart);
         $destination = trim($searchDto->destination);
         $searchDate = new DateTimeImmutable($searchDto->date);
-
-
 
         $qb->where('i.departureCity = :depart')
             ->andWhere('i.arrivalCity = :destination');
@@ -48,8 +45,6 @@ class ItineraryRepository extends ServiceEntityRepository
             ->setParameter('minPlaces', 0);
 
         $qb->orderBy('i.datetime', 'ASC');
-
-        $qb->setMaxResults(10);
 
         return $qb->getQuery()->getResult();
     }

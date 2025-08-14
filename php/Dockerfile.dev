@@ -19,9 +19,8 @@ RUN docker-php-ext-configure intl \
 # Active mod Apache rewrite (utile pour Symfony)
 RUN a2enmod rewrite
 
-# Copier le fichier vhost
-COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 
+COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 
 # WORKDIR
 WORKDIR /var/www/html/Ecoride

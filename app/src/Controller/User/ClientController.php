@@ -31,13 +31,19 @@ final class ClientController extends AbstractController
     #[Route('/addvehicle', name: 'add_vehicle', methods: ['POST'])]
     public function addVehicule(#[MapRequestPayload] VehicleDto $vehicleDto, VehicleFactory $vehicleFactory): JsonResponse
     {
+
         $vehicle = $vehicleFactory->createFromDto($vehicleDto);
-        // important changer le role du user 
-        // $user = $vehicle->getDriver();
-        // if (!in_array('ROLE_CHAUFFEUR', $user->getRoles())) {
-        //     $user->setRoles(array_unique([...$user->getRoles(), 'ROLE_CHAUFFEUR']));
-        //     $this->em->persist($user);
-        // }
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        $vehicle->setDriver($user);
+
+
+        if (!in_array('ROLE_CHAUFFEUR', $user->getRoles(), true)) {
+            $user->setRoles(array_unique([...$user->getRoles(), 'ROLE_DRIVER']));
+            $this->em->persist($user);
+        }
 
         $this->em->persist($vehicle);
         $this->em->flush();
