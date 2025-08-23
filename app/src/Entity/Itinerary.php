@@ -15,7 +15,7 @@ class Itinerary
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["itinerary:read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read"])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -27,16 +27,19 @@ class Itinerary
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(["itinerary:read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read"])]
     private ?\DateTimeImmutable $datetime = null;
 
     #[ORM\Column]
+    #[Groups(["driver.itinerary.read"])]
     private ?bool $isStarted = null;
 
     #[ORM\Column]
+    #[Groups(["driver.itinerary.read"])]
     private ?bool $isFinished = null;
 
     #[ORM\Column]
+    #[Groups(["driver.itinerary.read"])]
     private ?bool $isCancelled = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -52,12 +55,15 @@ class Itinerary
      * @var Collection<int, Reservation>
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'itinerary', orphanRemoval: true)]
+    #[Groups(["driver.itinerary.read"])]
     private Collection $reservations;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["driver.itinerary.read"])]
     private ?string $departureCity = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(["driver.itinerary.read"])]
     private ?string $arrivalCity = null;
 
     public function __construct()

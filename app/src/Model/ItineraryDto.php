@@ -25,15 +25,6 @@ class ItineraryDto
         #[Assert\DateTime(message: 'Le format de la date est invalide (attendu : YYYY-MM-DD HH:MM:SS).')]
         public string $datetime,
 
-        #[Assert\Type('bool', message: 'Le champ is_started doit être un booléen.')]
-        public bool $isStarted = false,
-
-        #[Assert\Type('bool', message: 'Le champ is_finished doit être un booléen.')]
-        public bool $isFinished = false,
-
-        #[Assert\Type('bool', message: 'Le champ is_cancelled doit être un booléen.')]
-        public bool $isCancelled = false,
-
         #[Assert\Type('integer', message: 'Le nombre de places doit être un entier.')]
         #[Assert\Positive(message: 'Le nombre de places doit être supérieur à zéro.')]
         public ?int $places = null,

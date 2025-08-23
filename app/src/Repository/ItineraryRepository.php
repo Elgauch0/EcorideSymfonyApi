@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use DateTimeImmutable;
 use App\Entity\Itinerary;
 use App\Model\CarpoolSearchDto;
@@ -47,6 +48,21 @@ class ItineraryRepository extends ServiceEntityRepository
         $qb->orderBy('i.datetime', 'ASC');
 
         return $qb->getQuery()->getResult();
+    }
+
+
+
+    /**
+     * @return Itinerary[] Returns an array of Itinerary objects
+     */
+    public function findByDriver(User $driver): array
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.vehicule', 'v')
+            ->where('v.driver = :driver')
+            ->setParameter('driver', $driver)
+            ->getQuery()
+            ->getResult();
     }
 
     //    public function findOneBySomeField($value): ?Itinerary

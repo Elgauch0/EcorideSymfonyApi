@@ -15,15 +15,18 @@ class Vehicle
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["vehicle:read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50, unique: true)]
+    #[Groups(["vehicle:read"])]
     private ?string $licence_plate = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $registration_date = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(["vehicle:read"])]
     private ?int $seats_available = null;
 
     #[ORM\Column]
