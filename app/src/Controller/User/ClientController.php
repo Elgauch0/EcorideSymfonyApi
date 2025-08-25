@@ -4,6 +4,7 @@ namespace App\Controller\User;
 
 use App\Entity\Itinerary;
 use App\Entity\User;
+use App\Entity\UserImage;
 use App\Model\VehicleDto;
 use App\Model\ItineraryDto;
 use App\Model\ReservationDto;
@@ -20,6 +21,10 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpKernel\Attribute\MapUploadedFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 #[Route('/api/user')]
 final class ClientController extends AbstractController
@@ -92,6 +97,53 @@ final class ClientController extends AbstractController
         $jsonContent = $serializer->serialize($user, 'json', ['groups' => ['user:read']]);
         return new JsonResponse($jsonContent, JsonResponse::HTTP_OK, [], true);
     }
+
+
+
+
+
+    #[Route('/addImg', name: 'add_img', methods: ['POST'])]
+    public function addImg(
+        #[MapUploadedFile([
+            new Assert\File(mimeTypes: ['image/jpeg', 'image/webp']),
+            new Assert\Image(maxWidth: 3840, maxHeight: 2160),
+        ])]
+        UploadedFile $picture
+    ): JsonResponse {
+        // 1. On vérifie qu’un fichier a bien été uploadé
+        if (null === $picture) {
+            return $this->json(
+                ['message' => 'Aucune image trouvée.'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        // 2. Récupération de l’utilisateur authentifié
+        /** @var User $user */
+        $user = $this->getUser();
+
+        // 3. Récupération ou création de l’entité UserImage
+        $userImage = $user->getUserImage();
+        if (null === $userImage) {
+            $userImage = new UserImage();
+            $user->setUserImage($userImage);
+        }
+
+        // 4. Injection du nouveau fichier : 
+        //    VichUploaderBundle va gérer le renommage,
+        //    le déplacement et le remplacement automatique.
+        $userImage->setImageFile($picture);
+
+        // 5. Persistance et enregistrement en base de données
+        $this->em->persist($userImage);
+        $this->em->flush();
+
+        // 6. Retour de l’URL publique de l’image
+        return $this->json([
+            'imageUrl' => '/uploads/users/' . $userImage->getImageFileName(),
+        ], JsonResponse::HTTP_CREATED);
+    }
+
 
 
     /////////////////////////////////////////////////////////////////// Itinerary //////////////////////////////////////////////////////////////////////////////////
