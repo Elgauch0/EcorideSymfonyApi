@@ -3,16 +3,21 @@
 namespace App\Controller\User;
 
 use App\Entity\Itinerary;
+use App\Entity\Reservation;
 use App\Entity\User;
 use App\Entity\UserImage;
+use App\Factory\CommentFactory;
 use App\Model\VehicleDto;
 use App\Model\ItineraryDto;
 use App\Model\ReservationDto;
 use App\Factory\VehicleFactory;
 use App\Factory\ItineraryFactory;
 use App\Factory\ReservationFactory;
+use App\Model\CommentDTO;
 use App\Repository\ItineraryRepository;
+use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Name;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -172,6 +177,9 @@ final class ClientController extends AbstractController
         return $this->json($itineraries, 200, [], ['groups' => 'driver.itinerary.read']);
     }
 
+
+
+
     #[Route('/setitineraries/{id}', name: 'set_itineraries', methods: ["PATCH", "DELETE"], requirements: ['id' => Requirement::POSITIVE_INT])]
     #[IsGranted('ROLE_DRIVER')]
     public function setItinerary(Request $request, Itinerary $itinerary): JsonResponse
@@ -206,5 +214,48 @@ final class ClientController extends AbstractController
 
         // Gérer le cas où la méthode n'est ni PATCH ni DELETE
         return $this->json(['message' => 'Méthode non supportée.'], JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+
+
+
+
+    ///////////////////////////////////////////// COMMENT /////////////////////////////////////////////////
+
+
+
+    #[Route('/addcomment', name: 'add_comment', methods: ['POST'])]
+    public function addComment(#[MapRequestPayload] CommentDTO $commentdto, CommentFactory $commentFactory): JsonResponse
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+
+        $comment = $commentFactory->createFromDto($commentdto, $user);
+        $comment->setUser($user);
+
+        $this->em->persist($comment);
+        $this->em->flush();
+        return new JsonResponse([
+            'message' => 'Commentaire ajouté avec succès.',
+            'id' => $comment->getId(),
+        ], JsonResponse::HTTP_CREATED);
+    }
+
+
+
+    /////////////////////////////////////////////////// Reservation ////////////////////////////////////////////////////////////////////////
+
+
+
+    #[Route('/getReservation', name: 'get_reservation', methods: ['GET'])]
+    public function getReservation(ReservationRepository $reservationRepo): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $reservations = $reservationRepo->findby(['clientId' => $user->getId()]);
+        return $this->json($reservations, 200, [], ['groups' => 'reservation:read']);
     }
 }

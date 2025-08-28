@@ -15,7 +15,7 @@ class Itinerary
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["itinerary:read", "driver.itinerary.read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read"])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -27,7 +27,7 @@ class Itinerary
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(["itinerary:read", "driver.itinerary.read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read"])]
     private ?\DateTimeImmutable $datetime = null;
 
     #[ORM\Column]
@@ -35,11 +35,11 @@ class Itinerary
     private ?bool $isStarted = null;
 
     #[ORM\Column]
-    #[Groups(["driver.itinerary.read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read"])]
     private ?bool $isFinished = null;
 
     #[ORM\Column]
-    #[Groups(["driver.itinerary.read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read"])]
     private ?bool $isCancelled = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -59,16 +59,24 @@ class Itinerary
     private Collection $reservations;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["driver.itinerary.read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read"])]
     private ?string $departureCity = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["driver.itinerary.read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read"])]
     private ?string $arrivalCity = null;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'itinerary', orphanRemoval: true)]
+    #[Groups(["reservation:read"])]
+    private Collection $comments;
 
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,12 +168,12 @@ class Itinerary
         return $this;
     }
 
-    public function getVehicule(): ?vehicle
+    public function getVehicule(): ?Vehicle
     {
         return $this->vehicule;
     }
 
-    public function setVehicule(?vehicle $vehicule): static
+    public function setVehicule(?Vehicle $vehicule): static
     {
         $this->vehicule = $vehicule;
 
@@ -224,5 +232,44 @@ class Itinerary
         $this->arrivalCity = $arrivalCity;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setItinerary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getItinerary() === $this) {
+                $comment->setItinerary(null);
+            }
+        }
+
+        return $this;
+    }
+    public function isReservedBy(User $user): bool
+    {
+        foreach ($this->reservations as $reservation) {
+            if ($reservation->getClientId() === $user) {
+                return true;
+            }
+        }
+        return false;
     }
 }

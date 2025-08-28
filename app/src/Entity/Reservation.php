@@ -16,11 +16,13 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Groups(["reservation:read"])]
     private ?\DateTimeImmutable $dateReservation = null;
 
 
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(["reservation:read"])]
     private ?int $seatsReserved = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reservations')]
@@ -33,6 +35,7 @@ class Reservation
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(["reservation:read"])]
     private ?Itinerary $itinerary = null;
 
 
