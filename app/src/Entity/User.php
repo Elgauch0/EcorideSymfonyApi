@@ -75,6 +75,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['itinerary:read', 'user:read'])]
+    private ?float $averageRating = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $ratingCount = null;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -304,6 +311,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAverageRating(): ?float
+    {
+        return $this->averageRating;
+    }
+
+    public function setAverageRating(?float $averageRating): static
+    {
+        $this->averageRating = $averageRating;
+
+        return $this;
+    }
+
+    public function getRatingCount(): ?int
+    {
+        return $this->ratingCount;
+    }
+
+    public function setRatingCount(?int $ratingCount): static
+    {
+        $this->ratingCount = $ratingCount;
 
         return $this;
     }

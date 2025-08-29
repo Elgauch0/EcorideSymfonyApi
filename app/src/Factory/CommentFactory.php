@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Comment;
 use App\Entity\Itinerary;
 use App\Model\CommentDTO;
+use App\Service\DriverRatingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -14,7 +15,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CommentFactory
 {
 
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(
+        private EntityManagerInterface $em,
+        private DriverRatingService $driverRatingService
+    ) {}
 
 
 
@@ -45,6 +49,12 @@ class CommentFactory
         if ($existingComment) {
             throw new BadRequestException("Vous avez déjà laissé un avis sur cet itinéraire.");
         }
+
+
+        $driver = $itinerary->getVehicule()->getDriver();
+        $this->driverRatingService->updateRating($driver, $commentDTO->note);
+
+
 
 
         $comment = new Comment();

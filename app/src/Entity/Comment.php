@@ -35,7 +35,7 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?itinerary $itinerary = null;
+    private ?Itinerary $itinerary = null;
 
     public function getId(): ?int
     {
