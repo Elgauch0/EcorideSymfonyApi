@@ -16,6 +16,7 @@ use App\Factory\ReservationFactory;
 use App\Model\CommentDTO;
 use App\Repository\ItineraryRepository;
 use App\Repository\ReservationRepository;
+use App\Service\PaymentService;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node\Name;
 use Symfony\Component\Routing\Attribute\Route;
@@ -225,7 +226,7 @@ final class ClientController extends AbstractController
 
 
     #[Route('/addcomment', name: 'add_comment', methods: ['POST'])]
-    public function addComment(#[MapRequestPayload] CommentDTO $commentdto, CommentFactory $commentFactory): JsonResponse
+    public function addComment(#[MapRequestPayload] CommentDTO $commentdto, CommentFactory $commentFactory, PaymentService $paymentService): JsonResponse
     {
 
         /** @var User $user */
@@ -234,6 +235,10 @@ final class ClientController extends AbstractController
 
         $comment = $commentFactory->createFromDto($commentdto, $user);
         $comment->setUser($user);
+
+        if ($comment->isApproved()) {
+            $paymentService->hundlePayment($user, $comment);
+        }
 
         $this->em->persist($comment);
         $this->em->flush();

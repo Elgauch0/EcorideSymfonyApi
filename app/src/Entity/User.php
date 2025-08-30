@@ -82,6 +82,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $ratingCount = null;
 
+    #[ORM\Column]
+    #[Groups(['user:read'])]
+    private ?float $Credits = null;
+
     public function __construct()
     {
         $this->vehicles = new ArrayCollection();
@@ -335,6 +339,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRatingCount(?int $ratingCount): static
     {
         $this->ratingCount = $ratingCount;
+
+        return $this;
+    }
+
+    public function getCredits(): ?float
+    {
+        return $this->Credits;
+    }
+
+    public function setCredits(float $Credits): static
+    {
+        $this->Credits = $Credits;
 
         return $this;
     }

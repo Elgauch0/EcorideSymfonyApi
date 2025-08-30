@@ -10,9 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ReservationFactory
 {
-    /**
-     * Constructor to inject dependencies.
-     */
+
     public function __construct(
         private EntityManagerInterface $em
     ) {}
@@ -50,6 +48,14 @@ class ReservationFactory
                 )
             );
         }
+
+        $priceToPay = $dto->seatsReserved * $itinerary->getPrice();
+
+        if ($client->getCredits() < $priceToPay) {
+
+            throw new \InvalidArgumentException('pas assez de credit pour reserver ');
+        }
+
 
         // --- NOUVEAU : Diminuer le nombre de places disponibles sur l'itinéraire ---
         $newAvailablePlaces = $itinerary->getPlaces() - $dto->seatsReserved;

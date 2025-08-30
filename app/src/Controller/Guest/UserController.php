@@ -37,6 +37,7 @@ final class UserController extends AbstractController
         $user->setLastname($userDto->lastName);
         $user->setAdress($userDto->adress);
         $user->setEmail($userDto->email);
+        $user->setCredits(200);
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $userDto->plainPassword);
         $user->setPassword($hashedPassword);
