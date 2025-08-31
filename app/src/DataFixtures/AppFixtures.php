@@ -29,6 +29,9 @@ class AppFixtures extends Fixture
         $admin->setEmail('admin@ecoride.com');
         $admin->setPassword($this->userPasswordHasher->hashPassword($admin, "password"));
         $manager->persist($admin);
+
+
+
         // --- NOUVEAU : Utilisateur Manager ---
 
         $employe = new User();

@@ -13,9 +13,11 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['manager:reservation:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['manager:reservation:read'])]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -26,15 +28,17 @@ class Comment
     private ?bool $isArrived = null;
 
     #[ORM\Column]
+    #[Groups(['manager:reservation:read'])]
     private ?bool $isApproved = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(["reservation:read"])]
+    #[Groups(["reservation:read", "manager:reservation:read"])]
     private ?user $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['manager:reservation:read'])]
     private ?Itinerary $itinerary = null;
 
     public function getId(): ?int

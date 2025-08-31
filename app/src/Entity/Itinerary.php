@@ -15,7 +15,7 @@ class Itinerary
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read", "manager:reservation:read"])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -27,7 +27,7 @@ class Itinerary
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read"])]
+    #[Groups(["itinerary:read", "driver.itinerary.read", "reservation:read", "manager:reservation:read"])]
     private ?\DateTimeImmutable $datetime = null;
 
     #[ORM\Column]
@@ -59,11 +59,11 @@ class Itinerary
     private Collection $reservations;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["driver.itinerary.read", "reservation:read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read", "manager:reservation:read"])]
     private ?string $departureCity = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["driver.itinerary.read", "reservation:read"])]
+    #[Groups(["driver.itinerary.read", "reservation:read", "manager:reservation:read"])]
     private ?string $arrivalCity = null;
 
     /**

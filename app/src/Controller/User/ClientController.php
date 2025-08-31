@@ -3,7 +3,6 @@
 namespace App\Controller\User;
 
 use App\Entity\Itinerary;
-use App\Entity\Reservation;
 use App\Entity\User;
 use App\Entity\UserImage;
 use App\Factory\CommentFactory;
@@ -18,7 +17,6 @@ use App\Repository\ItineraryRepository;
 use App\Repository\ReservationRepository;
 use App\Service\PaymentService;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Name;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;

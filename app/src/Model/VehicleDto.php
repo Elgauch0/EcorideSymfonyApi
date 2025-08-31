@@ -13,6 +13,10 @@ class VehicleDto
         #[Assert\NotBlank(message: 'La plaque d’immatriculation est requise.')]
         #[Assert\Type('string', message: 'La plaque doit être une chaîne de caractères.')]
         #[Assert\Length(min: 6, max: 20, minMessage: 'La plaque doit contenir au moins {{ limit }} caractères.')]
+        #[Assert\Regex(
+            pattern: '/^[^<>]*$/',
+            message: 'La licence Plate ne doit pas contenir de balises HTML ou de scripts.'
+        )]
         public string $licencePlate,
 
         #[Assert\NotBlank(message: 'La date d’enregistrement est requise.')]
@@ -33,6 +37,10 @@ class VehicleDto
         #[Assert\NotBlank(message: 'Le modèle du véhicule est requis.')]
         #[Assert\Type('string', message: 'Le modèle doit être une chaîne de caractères.')]
         #[Assert\Length(min: 2, max: 255)]
+        #[Assert\Regex(
+            pattern: '/^[^<>]*$/',
+            message: 'Le model ne doit pas contenir de balises HTML ou de scripts.'
+        )]
         public string $model,
 
         #[Assert\Type('bool', message: 'Le champ véhicule écologique doit être un booléen.')]
