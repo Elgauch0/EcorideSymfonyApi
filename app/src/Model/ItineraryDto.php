@@ -33,8 +33,8 @@ class ItineraryDto
         #[Assert\Type('string', message: 'La ville de départ doit être une chaîne de caractères.')]
         #[Assert\Length(min: 2, max: 50)]
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'L’departureCity ne doit pas contenir de balises HTML ou de scripts.'
+            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public string $departureCity,
 
@@ -42,8 +42,8 @@ class ItineraryDto
         #[Assert\Type('string', message: 'La ville d’arrivée doit être une chaîne de caractères.')]
         #[Assert\Length(min: 2, max: 50)]
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'L’arrivalCity ne doit pas contenir de balises HTML ou de scripts.'
+            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public string $arrivalCity
     ) {}

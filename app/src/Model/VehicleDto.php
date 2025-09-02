@@ -14,8 +14,8 @@ class VehicleDto
         #[Assert\Type('string', message: 'La plaque doit être une chaîne de caractères.')]
         #[Assert\Length(min: 6, max: 20, minMessage: 'La plaque doit contenir au moins {{ limit }} caractères.')]
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'La licence Plate ne doit pas contenir de balises HTML ou de scripts.'
+            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public string $licencePlate,
 
@@ -38,8 +38,8 @@ class VehicleDto
         #[Assert\Type('string', message: 'Le modèle doit être une chaîne de caractères.')]
         #[Assert\Length(min: 2, max: 255)]
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'Le model ne doit pas contenir de balises HTML ou de scripts.'
+            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public string $model,
 

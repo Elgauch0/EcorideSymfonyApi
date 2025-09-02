@@ -16,6 +16,7 @@ use App\Model\CommentDTO;
 use App\Repository\ItineraryRepository;
 use App\Repository\ReservationRepository;
 use App\Service\PaymentService;
+use App\Service\SendStatusItinerary;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -181,18 +182,24 @@ final class ClientController extends AbstractController
 
     #[Route('/setitineraries/{id}', name: 'set_itineraries', methods: ["PATCH", "DELETE"], requirements: ['id' => Requirement::POSITIVE_INT])]
     #[IsGranted('ROLE_DRIVER')]
-    public function setItinerary(Request $request, Itinerary $itinerary): JsonResponse
+    public function setItinerary(Request $request, Itinerary $itinerary, SendStatusItinerary $sendStatusItinerary): JsonResponse
     {
-        // Gérer la requête PATCH pour démarrer ou terminer un itinéraire
         if ($request->isMethod('PATCH')) {
             if ($itinerary->isCancelled() || $itinerary->isFinished()) {
                 return $this->json(['message' => 'L\'itinéraire ne peut pas être mis à jour.'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
-
             if ($itinerary->isStarted()) {
+                $sendStatusItinerary->sendStatusItinerary(
+                    $itinerary,
+                    SendStatusItinerary::FINISHED
+                );
                 $itinerary->setIsFinished(true);
             } else {
+                $sendStatusItinerary->sendStatusItinerary(
+                    $itinerary,
+                    SendStatusItinerary::STARTED
+                );
                 $itinerary->setIsStarted(true);
             }
 
@@ -200,20 +207,23 @@ final class ClientController extends AbstractController
             return $this->json($itinerary, JsonResponse::HTTP_OK, [], ['groups' => 'driver.itinerary.read']);
         }
 
-        // Gérer la requête DELETE pour annuler un itinéraire
         if ($request->isMethod('DELETE')) {
             if ($itinerary->isCancelled()) {
                 return $this->json(['message' => 'L\'itinéraire est déjà annulé.'], JsonResponse::HTTP_BAD_REQUEST);
             }
 
+            $sendStatusItinerary->sendStatusItinerary(
+                $itinerary,
+                SendStatusItinerary::CANCELLED
+            );
             $itinerary->setIsCancelled(true);
             $this->em->flush();
             return $this->json($itinerary, JsonResponse::HTTP_OK, [], ['groups' => 'driver.itinerary.read']);
         }
 
-        // Gérer le cas où la méthode n'est ni PATCH ni DELETE
         return $this->json(['message' => 'Méthode non supportée.'], JsonResponse::HTTP_METHOD_NOT_ALLOWED);
     }
+
 
 
 

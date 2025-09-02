@@ -22,8 +22,8 @@ class EditCommentDTO
         )]
         // Empêche toute balise HTML ou script (premier rempart anti-XSS)
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'L’email ne doit pas contenir de balises HTML ou de scripts.'
+            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public string $userEmail,
 

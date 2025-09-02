@@ -4,7 +4,9 @@ namespace App\Controller\Guest;
 
 
 use App\Factory\UserFactory;
+use App\Model\EmailDTO;
 use App\Model\RequestUserDto;
+use App\Service\MailerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,5 +36,14 @@ final class UserController extends AbstractController
         $this->em->flush();
 
         return new JsonResponse(null, JsonResponse::HTTP_CREATED);
+    }
+
+
+    #[Route('/email', name: 'get_Emails', methods: ['POST'])]
+    public function getEmails(#[MapRequestPayload] EmailDTO $emailDTO, MailerService $mailerService): JsonResponse
+    {
+
+        $mailerService->sendToAdmin($emailDTO->email, $emailDTO->content);
+        return $this->json(null, JsonResponse::HTTP_OK);
     }
 }

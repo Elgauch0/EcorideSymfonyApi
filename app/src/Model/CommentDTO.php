@@ -16,8 +16,8 @@ class CommentDTO
             maxMessage: 'Le contenu ne peut pas dépasser {{ limit }} caractères.'
         )]
         #[Assert\Regex(
-            pattern: '/^[^<>]*$/',
-            message: 'Le contenu ne doit pas contenir de balises HTML.'
+            pattern: '/^[\p{L}0-9 .,!?-]+$/u',
+            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
         )]
         public ?string $content = null,
 
