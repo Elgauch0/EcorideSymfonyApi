@@ -65,6 +65,17 @@ class ItineraryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function findItinerariesData(): ?array
+    {
+
+        return $this->createQueryBuilder('i')
+            ->select("SUBSTRING(i.datetime, 1, 10) as date, COUNT(i.id) as count")
+            ->groupBy('date')
+            ->orderBy('date', 'DESC')->getQuery()->getResult();
+    }
+
+
     //    public function findOneBySomeField($value): ?Itinerary
     //    {
     //        return $this->createQueryBuilder('i')

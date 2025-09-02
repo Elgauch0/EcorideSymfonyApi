@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 final class TestController extends AbstractController
@@ -23,7 +23,7 @@ final class TestController extends AbstractController
     }
 
 
-    #[Route('/api/public', name: 'public_test', methods: ['GET'])]
+    #[Route('/api/guest', name: 'public_test', methods: ['GET'])]
     public function public_test(): JsonResponse
     {
         return new JsonResponse(['message' => 'data public']);

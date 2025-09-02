@@ -18,6 +18,17 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
 
+    public function getDailyCredits(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select("SUBSTRING(i.datetime, 1, 10) AS date, SUM(r.seatsReserved * i.price) AS totalCredits")
+            ->join('r.itinerary', 'i')
+            ->where('r.isCancelled = false')
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
 
 

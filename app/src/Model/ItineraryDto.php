@@ -31,7 +31,7 @@ class ItineraryDto
 
         #[Assert\NotBlank(message: 'La ville de départ est requise.')]
         #[Assert\Type('string', message: 'La ville de départ doit être une chaîne de caractères.')]
-        #[Assert\Length(min: 2, max: 255)]
+        #[Assert\Length(min: 2, max: 50)]
         #[Assert\Regex(
             pattern: '/^[^<>]*$/',
             message: 'L’departureCity ne doit pas contenir de balises HTML ou de scripts.'
@@ -40,7 +40,7 @@ class ItineraryDto
 
         #[Assert\NotBlank(message: 'La ville d’arrivée est requise.')]
         #[Assert\Type('string', message: 'La ville d’arrivée doit être une chaîne de caractères.')]
-        #[Assert\Length(min: 2, max: 255)]
+        #[Assert\Length(min: 2, max: 50)]
         #[Assert\Regex(
             pattern: '/^[^<>]*$/',
             message: 'L’arrivalCity ne doit pas contenir de balises HTML ou de scripts.'

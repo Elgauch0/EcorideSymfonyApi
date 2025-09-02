@@ -21,13 +21,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['user:read', 'manager:reservation:read'])]
+    #[Groups(['user:read', 'manager:reservation:read', 'admin:read:user'])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Groups(['admin:read:user'])]
     private array $roles = [];
 
     /**
@@ -37,11 +38,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read", "user:read"])]
+    #[Groups(["itinerary:read", "user:read", "admin:read:user"])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(["itinerary:read", "user:read"])]
+    #[Groups(["itinerary:read", "user:read", "admin:read:user"])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 100)]
