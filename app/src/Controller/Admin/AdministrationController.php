@@ -4,21 +4,27 @@ namespace App\Controller\Admin;
 
 
 
+use App\Document\UserAvis;
 use App\Factory\UserFactory;
+
 use App\Model\EditCommentDTO;
 use App\Model\RequestUserDto;
+
 use App\Service\PaymentService;
 use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ItineraryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ReservationRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 #[Route('/api/admin')]
 final class AdministrationController extends AbstractController
@@ -49,6 +55,42 @@ final class AdministrationController extends AbstractController
     }
 
 
+
+
+    #[Route('/avispublic', name: 'get_avispublic', methods: ['GET'])]
+    public function getavispublicnonValid(DocumentManager $documentManager): JsonResponse
+    {
+        $avis = $documentManager->getRepository(UserAvis::class)->findBy(['isValid' => false]);
+        return $this->json($avis, JsonResponse::HTTP_OK);
+    }
+
+
+
+
+
+
+    #[Route('/avispublic/{id}', name: 'set_avispublic', methods: ['DELETE', 'PATCH'], requirements: ["id" => Requirement::MONGODB_ID])]
+    public function setavispublicnonValid(UserAvis $userAvis, DocumentManager $documentManager, Request $request): JsonResponse
+    {
+        if (!$userAvis) {
+            return $this->json(null, JsonResponse::HTTP_NOT_FOUND);
+        }
+        $methode = $request->getMethod();
+        if ($methode === "DELETE") {
+            $documentManager->remove($userAvis);
+            $documentManager->flush();
+            return $this->json(["message" => "Avis supprimé"], JsonResponse::HTTP_OK);
+        }
+        if ($methode === "PATCH") {
+            $userAvis->setIsValid(true);
+            $documentManager->flush();
+            return $this->json(["message" => "Avis validé"], JsonResponse::HTTP_OK);
+        }
+
+
+
+        return $this->json(["message" => "this should not be arrived "], JsonResponse::HTTP_BAD_REQUEST);
+    }
 
 
     #[Route('/avis', name: 'edit_comments', methods: ['PATCH'])]

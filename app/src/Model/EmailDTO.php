@@ -20,10 +20,6 @@ class EmailDTO
     public function __construct(
 
         #[Assert\NotBlank(message: "L'email est obligatoire.")]
-        #[Assert\Regex(
-            pattern: '/^[\p{L}0-9 .,!?-@]+$/u',
-            message: 'Le contenu ne peut contenir que des lettres, chiffres et ponctuation basique.'
-        )]
         #[Assert\Email(message: 'L’email doit être une adresse email valide.')]
         public  string $email,
 
