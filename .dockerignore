@@ -4,15 +4,19 @@ app/vendor
 # Cache et logs
 app/var/cache
 app/var/log
-
+app/tests
+.editorconfig
+app/.gitignore
+app/phpunit*
 
 # Fichiers sensibles
 .env*
-app/.env
+
 
 
 # Dumps SQL (si tu ne veux pas les envoyer dans l'image)
-docker/db/init/*.sql
+docker*
+
 
 # Git
 .git

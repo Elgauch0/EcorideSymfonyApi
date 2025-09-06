@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: Ecoride
-    image: elkaouri/ecorideapi
+    container_name: ecoride
+    image: elkaouri/ecorideapi:v1.2
     ports:
       - "8000:80"
     environment:

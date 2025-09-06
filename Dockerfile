@@ -1,63 +1,76 @@
-# Utilise l'image PHP avec Apache
-FROM php:8.2-apache
+# ====== STAGE 1 : Build & install deps ======
+FROM php:8.2-apache AS build
 
-# Variables d'env utiles en dev
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     PHP_INI_DIR=/usr/local/etc/php
 
-# Dépendances système nécessaires (intl, zip, SSL pour MongoDB, etc.)
+# Dépendances système + extensions PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip curl \
-    libicu-dev \
-    libzip-dev \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libicu-dev libzip-dev libssl-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install -j$(nproc) intl zip opcache pdo pdo_mysql \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
+    && a2enmod rewrite headers \
+    && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# Extensions PHP (PDO MySQL pour MariaDB, intl, zip, opcache)
-RUN docker-php-ext-configure intl \
-    && docker-php-ext-install -j$(nproc) \
-    intl zip opcache pdo pdo_mysql
-
-# Extension MongoDB (pour doctrine/mongodb-odm-bundle)
-RUN pecl install mongodb && rm -rf /tmp/pear \
-    && docker-php-ext-enable mongodb
-
-# Config PHP adaptée au dev (Symfony)
+# Config PHP (prod)
 RUN { \
     echo 'date.timezone=Europe/Paris'; \
     echo 'memory_limit=512M'; \
     echo 'upload_max_filesize=20M'; \
     echo 'post_max_size=25M'; \
     echo 'opcache.enable=1'; \
-    echo 'opcache.enable_cli=1'; \
-    echo 'opcache.validate_timestamps=1'; \
+    echo 'opcache.enable_cli=0'; \
+    echo 'opcache.validate_timestamps=0'; \
     echo 'opcache.max_accelerated_files=20000'; \
     echo 'opcache.memory_consumption=192'; \
     echo 'opcache.interned_strings_buffer=16'; \
-    } > ${PHP_INI_DIR}/conf.d/dev.ini
-
-# Apache: rewrite + headers (utile pour Symfony et CORS)
-RUN a2enmod rewrite headers
-
-# VHost (ton fichier doit pointer vers /var/www/html/public si ton projet a un dossier public)
-COPY ./php/vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+    } > ${PHP_INI_DIR}/conf.d/prod.ini
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Répertoire de travail
 WORKDIR /var/www/html
+
+# 1️⃣ Copier uniquement composer.json/lock pour profiter du cache
 COPY ./app/composer.json ./app/composer.lock ./
-RUN composer install --no-scripts --no-autoloader --prefer-dist  --no-dev --optimize-autoloader --classmap-authoritative
+
+# 2️⃣ Copier bin/ et config/ pour que bin/console existe pendant install
+COPY ./app/bin ./bin
+COPY ./app/config ./config
+
+# 3️⃣ Installer dépendances PHP sans scripts (pour éviter l'erreur)
+RUN composer install --no-dev --optimize-autoloader --classmap-authoritative --no-cache --no-scripts
+
+# 4️⃣ Copier le reste du code
 COPY ./app /var/www/html/
+
+# 5️⃣ Lancer les scripts Composer maintenant que tout est là
+RUN composer run-script post-install-cmd || true
+
+# 6️⃣ Optimiser autoload
 RUN composer dump-autoload --optimize
 
-# Droits (www-data) sur le projet; var/ est souvent bind-mounté en dev, mais on prépare quand même
-RUN mkdir -p var \
-    && chown -R www-data:www-data /var/www/html
+# Droits
+RUN mkdir -p var && chown -R www-data:www-data /var/www/html
 
-# Expose le port 80
+# ====== STAGE 2 : Image finale ======
+FROM php:8.2-apache
+
+# Copier config Apache
+COPY ./php/vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+
+# Copier PHP + extensions depuis le build
+COPY --from=build /usr/local/etc/php /usr/local/etc/php
+COPY --from=build /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=build /usr/local/bin/docker-php-* /usr/local/bin/
+COPY --from=build /usr/local/sbin/docker-php-* /usr/local/sbin/
+
+# Copier uniquement le code et vendor
+WORKDIR /var/www/html
+COPY --from=build /var/www/html /var/www/html
+
 EXPOSE 80
-
-# Démarrage Apache
 CMD ["apache2-foreground"]
