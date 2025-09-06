@@ -1,0 +1,23 @@
+# Dépendances PHP
+app/vendor
+
+# Cache et logs
+app/var/cache
+app/var/log
+
+
+# Fichiers sensibles
+.env*
+app/.env
+
+
+# Dumps SQL (si tu ne veux pas les envoyer dans l'image)
+docker/db/init/*.sql
+
+# Git
+.git
+.gitignore
+
+# Autres fichiers inutiles en prod
+tests
+docs
