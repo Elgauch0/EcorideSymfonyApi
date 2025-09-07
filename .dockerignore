@@ -8,6 +8,7 @@ app/tests
 .editorconfig
 app/.gitignore
 app/phpunit*
+app/src/DataFixtures
 
 # Fichiers sensibles
 .env*

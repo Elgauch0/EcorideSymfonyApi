@@ -1,12 +1,12 @@
 services:
-  php:
+  Ecoride:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ecoride
-    image: elkaouri/ecorideapi:v1.2
+    container_name: ecorideProd
+    image: elkaouri/ecorideapi:v1.21
     ports:
-      - "8000:80"
+      - "80:80"
     environment:
       APP_ENV: ${APP_ENV}             
       APP_SECRET: ${APP_SECRET}       

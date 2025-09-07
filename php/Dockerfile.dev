@@ -41,7 +41,7 @@ RUN { \
 RUN a2enmod rewrite headers
 
 # VHost (ton fichier doit pointer vers /var/www/html/public si ton projet a un dossier public)
-COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
+COPY ./vhosts/local.conf /etc/apache2/sites-available/000-default.conf
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

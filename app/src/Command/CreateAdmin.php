@@ -17,7 +17,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
     name: 'app:create-admin-user',
     description: 'Crée un compte admin admin@ecoride.com avec un mot de passe donné',
 )]
-class CreateAdminUserCommand extends Command
+class CreateAdmin extends Command
 {
     public function __construct(
         private EntityManagerInterface $em,
