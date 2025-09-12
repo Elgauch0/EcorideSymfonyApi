@@ -26,7 +26,7 @@ final class ItineraryController extends AbstractController
     ): JsonResponse {
         $itineraries = $this->itineraryRepository->findBySearchCriteria($searchDto);
         if (empty($itineraries)) {
-            return $this->json($searchDto, JsonResponse::HTTP_CREATED);
+            return $this->json($searchDto, JsonResponse::HTTP_OK);
         }
         $jsonContent = $this->serializer->serialize($itineraries, 'json', ['groups' => ['itinerary:read']]);
 

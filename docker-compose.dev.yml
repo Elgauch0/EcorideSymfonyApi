@@ -1,10 +1,10 @@
 services:
-  Php:
+  php:
     build:
       context: ./php
       dockerfile: Dockerfile.dev
-    container_name: Ecoride
-    image: ecoride_img
+    container_name: EcorideDev
+    image: ecoride_img_dev
     ports:
       - "8000:80"
     environment:
