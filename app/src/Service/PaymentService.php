@@ -63,8 +63,5 @@ class PaymentService
         $user->setCredits($user->getCredits() + $paieToClient);
         $driver->setCredits($driver->getCredits() + $paieToDriver);
         $admin->setCredits($admin->getCredits() + $paieToAdmin);
-
-        // Note: L'appel à $this->em->flush() doit être fait dans le contrôleur qui utilise ce service
-        // pour s'assurer que toutes les modifications sont sauvegardées en une seule transaction.
     }
 }
