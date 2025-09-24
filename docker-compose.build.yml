@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ecorideProd
-    image: elkaouri/ecorideapi:1.21
+    image: elkaouri/ecorideapi:1.22
     ports:
       - "80:80"
     environment:
@@ -31,15 +31,6 @@ services:
       MARIADB_PASSWORD: ${DB_PASSWORD}
    volumes:
       - mariadb_data:/var/lib/mysql
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: ecorideProd
-    environment:
-      WATCHTOWER_CLEANUP: "true"
-      WATCHTOWER_POLL_INTERVAL: 300   
+ 
 volumes:
     mariadb_data:
