@@ -13,7 +13,7 @@ final class TestController extends AbstractController
     #[Route('/', name: 'app_home', methods: ['GET'])]
     public function test(): JsonResponse
     {
-        return new JsonResponse(['message' => "server is UP"]);
+        return new JsonResponse(['message' => "server is UP V2"]);
     }
 
     #[Route('/api/admin', name: 'admin_test', methods: ['GET'])]
