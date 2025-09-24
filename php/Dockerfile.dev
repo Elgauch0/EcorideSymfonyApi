@@ -46,12 +46,9 @@ COPY ./vhosts/vhosts.conf /etc/apache2/sites-available/000-default.conf
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Répertoire de travail
-WORKDIR /var/www/html
+WORKDIR /var/www/html/Ecoride
 
-# Droits (www-data) sur le projet; var/ est souvent bind-mounté en dev, mais on prépare quand même
-RUN mkdir -p var \
-    && chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data .
 
 # Expose le port 80
 EXPOSE 80

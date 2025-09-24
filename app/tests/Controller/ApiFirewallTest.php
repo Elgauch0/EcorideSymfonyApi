@@ -29,7 +29,7 @@ final class ApiFirewallTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'Get',
-            '/api/public',
+            '/api/guest',
             [],
             [],
             [
