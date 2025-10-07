@@ -6,11 +6,6 @@
 
 # Fichiers de configuration spécifiques à l'environnement local
 .env*
-/.env
-/.env.local
-/.env.dev
-/.env.prod
-/.env.test
 !.env.example
 
 
