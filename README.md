@@ -1,101 +1,51 @@
-# 🚴 EcoRideSymfonyApi
+🚴 EcoRideSymfonyApi
+Application back-end Symfony gérant des trajets de covoiturage écoresponsables. Elle fournit une API RESTful complète et utilise Docker et Doctrine ORM.
 
-Application back-end Symfony pour la gestion de trajets écoresponsables (covoiturage). Ce projet utilise Docker et Doctrine ORM pour la persistance des données.
+✨ Fonctionnalités Clés
+Gestion Utilisateurs : Inscription, connexion, profil.
 
----
+Trajets : Création, recherche, réservation, et annulation.
 
-## ✨ Fonctionnalités Principales
+Historique : Suivi des trajets passés et futurs.
 
-- Gestion des utilisateurs (inscription, connexion, profil)
-- Création et recherche de trajets de covoiturage
-- Réservation et annulation de places sur un trajet
-- Historique des trajets pour les utilisateurs
-- API RESTful pour l'intégration avec des applications front-end ou mobiles
+⚙️ Prérequis
+Pour lancer le projet, vous devez disposer des outils suivants :
 
----
+Docker & Docker Compose
 
-## ⚙️ Prérequis
+Git
 
-- **Docker & Docker Compose** : Essentiels pour lancer l'environnement de développement.
-- **Git** : Pour cloner le dépôt.
-- **Composer** : Pour installer les dépendances PHP.
+🚀 Démarrage et Configuration
+Suivez ces étapes pour rendre l'API opérationnelle :
 
----
+1. Cloner le Dépôt
+   Ouvrez votre terminal et clonez le projet :
 
-## 🚀 Installation Rapide
+Bash
 
-Suivez ces étapes pour démarrer l'API EcoRide :
+git clone https://github.com/Elgauch0/EcorideSymfonyApi.git
+cd EcorideSymfonyApi 2. Démarrer les Services Docker
+Lancez les conteneurs de l'API et de la base de données :
 
-1.  **Cloner le dépôt** :
+Bash
 
-    ```bash
-    git clone [https://github.com/Elgauch0/EcorideSymfonyApi.git](https://github.com/Elgauch0/EcorideSymfonyApi.git)
-    cd EcorideSymfonyApi
-    ```
-
-2.  **Configuration de l'environnement** :
-
-    ```bash
-    cp .env.example .env
-    ```
-
-    _Vérifiez le fichier `.env` pour ajuster les configurations de base de données si nécessaire, bien que les valeurs par défaut soient prévues pour fonctionner avec Docker._
-
-3.  **Installer les dépendances Composer** :
-
-    ```bash
-    composer install
-    ```
-
-4.  **Démarrer les services Docker** :
-    ```bash
-    docker-compose up -d //  docker compose --env-file .env.dev up -d
-    ```
-    _Cela construira les images Docker et démarrera les conteneurs ._
+docker compose -f docker-compose.prod.local --env-file .env.example up -d
+Ceci construit les images et démarre les services en arrière-plan.
 
 ---
 
-## 💾 Configuration de la Base de Données
+3. Initialisation de la Base de Données
+   Exécutez les migrations Doctrine dans le conteneur ecoride pour configurer la base de données :
 
-Une fois les conteneurs Docker démarrés, exécutez les commandes suivantes pour configurer la base de données :
+Bash
 
-1.  **Créer la base de données** :
+docker exec -it ecoride php bin/console doctrine:migrations:migrate 4. Création du Compte Administrateur
+Créez l'utilisateur administrateur par défaut. N'oubliez pas de remplacer <mot_de_passe> :
 
-    ```bash
-    docker exec -it Ecoride php bin/console doctrine:database:create
-    ```
+Bash
 
-2.  **Exécuter les migrations** :
+docker exec -it ecoride php bin/console app:create-admin-user <mot_de_passe>
+🌐 Accès à l'API
+L'API EcoRide est désormais accessible à l'adresse suivante :
 
-    ```bash
-    docker exec -it Ecoride php bin/console doctrine:migrations:migrate
-    ```
-
-3.  **Charger les données de test (fixtures)** :
-    ```bash
-    docker exec -it Ecoride php bin/console doctrine:fixtures:load
-    ```
-    _Cette commande va peupler la base de données avec des données d'exemple pour faciliter le développement et les tests._
-
----
-
-## 🌐 Accès à l'API
-
-L'API sera accessible via `http://localhost:8000` .
-
----
-
-## 🧪 Exécuter les Tests
-
-Pour lancer les tests PHPUnit du projet :
-
-```bash
-./vendor/bin/phpunit  --testdox
-```
-
-/////
-creer alias pour la base de donnée de test
-alias symfony-root='DATABASE_URL="mysql://root:secretpass@mariadb:3306/ma_base" php bin/console'
-
-creer la base de donnée test
-symfony-root doctrine:database:create --env=test
+http://localhost:8000
